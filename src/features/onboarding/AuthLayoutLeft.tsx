@@ -66,7 +66,7 @@ const AuthLayoutLeft = () => {
                   onClick={() => window.open("https://dataondeck.io", "_blank")}
                   title="Visit Data on Deck"
                 >
-                  Data on Deck
+                  QuickHire Console
                 </Title>
 
                 {/* Logo */}

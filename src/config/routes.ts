@@ -7,6 +7,7 @@ export const routes = {
   },
   dashboard: {
     root: "/dashboard",
+    jobs: "/dashboard/jobs",
   },
   errors: {
     notFound: "/404",

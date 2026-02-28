@@ -12,6 +12,9 @@ const Login = React.lazy(() => import("../../features/auth/pages/Login"));
 const DashboardHome = React.lazy(
   () => import("../../features/dashboard/pages/DashboardHome")
 );
+const AdminJobs = React.lazy(
+  () => import("../../features/jobs/pages/AdminJobs")
+);
 
 // Loading spinner component
 const LoadingSpinner = () => (
@@ -59,6 +62,14 @@ const AppRouter: React.FC = () => {
           }
         >
           <Route index element={<DashboardHome />} />
+          <Route
+            path={routes.dashboard.jobs}
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminJobs />
+              </ProtectedRoute>
+            }
+          />
         </Route>
 
         <Route path={routes.errors.forbidden} element={<Forbidden />} />

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { AuthState, LoginCredentials } from '../types/auth.types';
+import type { AuthState, LoginCredentials, LoginResponse } from '../types/auth.types';
 import { authService } from '../services/authService';
 
 // Initialize state - simplified for login-only flow
@@ -24,9 +24,9 @@ const initialState: AuthState = {
 };
 
 // Async thunks - simplified to only include login
-export const login = createAsyncThunk(
+export const login = createAsyncThunk<LoginResponse, LoginCredentials, { rejectValue: string }>(
     'auth/login',
-    async (credentials: LoginCredentials, { rejectWithValue }) => {
+    async (credentials, { rejectWithValue }) => {
         try {
             const response = await authService.login(credentials);
             return response;
@@ -71,25 +71,22 @@ const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.isLoading = false;
 
-                const response = action.payload;
-                const data = response?.data;
+                const data = action.payload;
 
-                if (data) {
-                    state.tokens.accessToken = data.tokens?.accessToken ?? null;
-                    state.tokens.refreshToken = data.tokens?.refreshToken ?? null;
+                state.tokens.accessToken = data.accessToken ?? null;
+                state.tokens.refreshToken = data.refreshToken ?? null;
 
-                    if (data.user) {
-                        state.user = {
-                            id: data.user.id,
-                            name: data.user.name,
-                            email: data.user.email,
-                            role: (data.user.role || 'USER').toLowerCase(),
-                            status: 'active',
-                        };
-                    }
-
-                    state.isAuthenticated = Boolean(data.tokens?.accessToken);
+                if (data.user) {
+                    state.user = {
+                        id: data.user.id,
+                        name: data.user.name,
+                        email: data.user.email,
+                        role: (data.user.role || 'USER').toLowerCase(),
+                        status: 'active',
+                    };
                 }
+
+                state.isAuthenticated = Boolean(data.accessToken);
 
                 state.error = null;
             })

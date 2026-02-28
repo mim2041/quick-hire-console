@@ -72,7 +72,7 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ visible, onClose }) => {
     <div className="space-y-6">
       <div className="text-center mb-6">
         <Title level={3} className="mb-2">
-          Welcome to Data on Deck! 🎉
+          Welcome to QuickHire Console! 🎉
         </Title>
         <Text className="text-gray-600 text-base">
           Get started by uploading your data using one of these methods:
@@ -219,7 +219,7 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ visible, onClose }) => {
     <div className="space-y-6">
       <div className="text-center mb-6">
         <Title level={3} className="mb-2">
-          Welcome to Data on Deck! 🎉
+          Welcome to QuickHire Console! 🎉
         </Title>
         <Text className="text-gray-600 text-base">
           You're all set! Here's what you can do next:

@@ -1,56 +1,39 @@
-// Simplified auth types for login-only flow
+// Auth types aligned with QuickHire API
 export interface User {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-    status: string;
-}
-
-// API Response User type (matches actual API response)
-export interface ApiUser {
-    id: string;
-    email: string;
-    name: string;
-    role: string;
-    isVerified: boolean;
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
 }
 
 export interface LoginCredentials {
-    email: string;
-    password: string;
-    remember_me?: boolean;
+  email: string;
+  password: string;
+  remember_me?: boolean;
 }
 
+// Matches OpenAPI LoginResponse schema
 export interface LoginResponse {
-    status: number;
-    success: boolean;
-    message: string;
-    data: {
-        user: ApiUser;
-        tokens: {
-            accessToken: string;
-            refreshToken: string;
-        };
-    };
-    path: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: string;
 }
 
-// Simplified Auth State for login-only flow
+// Auth state for login-only flow
 export interface AuthState {
-    // User
-    user: User | null;
-
-    // Authentication Status
-    isAuthenticated: boolean;
-
-    // Tokens
-    tokens: {
-        accessToken: string | null;
-        refreshToken: string | null;
-    };
-
-    // UI State
-    isLoading: boolean;
-    error: string | null;
-} 
+  user: User | null;
+  isAuthenticated: boolean;
+  tokens: {
+    accessToken: string | null;
+    refreshToken: string | null;
+  };
+  isLoading: boolean;
+  error: string | null;
+}

@@ -92,9 +92,9 @@ const MaintenanceMode: React.FC<MaintenanceModeProps> = ({
       <div className="max-w-lg w-full relative z-10">
         {/* Brand Header */}
         <div className="flex items-center justify-center mb-6 select-none">
-          <img src="/logo.svg" alt="Data on Deck" className="h-8 w-8 mr-2" />
+          <img src="/logo.svg" alt="QuickHire Console" className="h-8 w-8 mr-2" />
           <span className="text-gray-800 text-lg font-semibold tracking-tight">
-            Data on Deck
+            QuickHire Console
           </span>
         </div>
         {/* Main Card */}
