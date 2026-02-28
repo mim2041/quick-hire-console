@@ -20,4 +20,16 @@ export const menuItems: MenuItem[] = [
     icon: "ProfileOutlined",
     path: "/dashboard/jobs",
   },
+  {
+    key: "applications",
+    label: "Applications",
+    icon: "InboxOutlined",
+    path: "/dashboard/applications",
+  },
+  {
+    key: "profile",
+    label: "Profile",
+    icon: "UserOutlined",
+    path: "/dashboard/profile",
+  },
 ];

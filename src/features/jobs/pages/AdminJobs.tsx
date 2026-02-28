@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   Button,
   Card,
-  Form,
   Input,
   Modal,
   Popconfirm,
@@ -18,29 +17,28 @@ import {
   ReloadOutlined,
 } from "@ant-design/icons";
 import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
-import {
-  type CreateJobPayload,
-  type Job,
-  type JobsQueryParams,
-} from "../types/job.types";
+import { type Job, type JobsQueryParams } from "../types/job.types";
 import { jobService } from "../services/jobService";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../../config/routes";
 
 const { Title, Text } = Typography;
-const { Search, TextArea } = Input;
+const { Search } = Input;
 
 const DEFAULT_PAGE_SIZE = 10;
 
 const AdminJobs: React.FC = () => {
+  const navigate = useNavigate();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [viewJob, setViewJob] = useState<Job | null>(null);
   const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
     pageSize: DEFAULT_PAGE_SIZE,
     total: 0,
   });
   const [filters, setFilters] = useState<JobsQueryParams>({});
-  const [form] = Form.useForm<CreateJobPayload>();
 
   const loadJobs = async (page = 1, pageSize = DEFAULT_PAGE_SIZE) => {
     setIsLoading(true);
@@ -79,33 +77,27 @@ const AdminJobs: React.FC = () => {
     void loadJobs(current, pageSize);
   };
 
-  const openCreateModal = () => {
-    form.resetFields();
-    setIsModalOpen(true);
+  const goToCreateJob = () => {
+    navigate(routes.dashboard.jobsNew);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCreateJob = async () => {
-    try {
-      const values = await form.validateFields();
-      await jobService.createJob(values);
-      message.success("Job created");
-      closeModal();
-      void loadJobs(
-        pagination.current ?? 1,
-        pagination.pageSize ?? DEFAULT_PAGE_SIZE,
-      );
-    } catch (error) {
-      if (error instanceof Error) {
-        // validation error is already shown by antd
-        if (error.name !== "Error") {
-          message.error("Failed to create job");
-        }
-      }
+  const goToEditJob = (job: Job) => {
+    const id = job.id ?? (job as unknown as { _id?: string })._id;
+    if (!id) {
+      message.error("Invalid job id");
+      return;
     }
+    navigate(routes.dashboard.jobsEdit.replace(":id", id));
+  };
+
+  const openViewModal = (job: Job) => {
+    setViewJob(job);
+    setIsViewModalOpen(true);
+  };
+
+  const closeViewModal = () => {
+    setIsViewModalOpen(false);
+    setViewJob(null);
   };
 
   const handleDeleteJob = async (jobId: string) => {
@@ -162,12 +154,22 @@ const AdminJobs: React.FC = () => {
         key: "actions",
         render: (_, record) => (
           <Space size="small">
+            <Button size="small" onClick={() => openViewModal(record)}>
+              View
+            </Button>
+            <Button size="small" onClick={() => goToEditJob(record)}>
+              Edit
+            </Button>
             <Popconfirm
               title="Delete job"
               description="Are you sure you want to delete this job?"
               okText="Delete"
               okButtonProps={{ danger: true }}
-              onConfirm={() => handleDeleteJob(record.id)}
+              onConfirm={() =>
+                handleDeleteJob(
+                  record.id ?? (record as unknown as { _id?: string })._id ?? "",
+                )
+              }
             >
               <Button size="small" danger icon={<DeleteOutlined />}>
                 Delete
@@ -223,7 +225,7 @@ const AdminJobs: React.FC = () => {
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
-                onClick={openCreateModal}
+                onClick={goToCreateJob}
               >
                 New Job
               </Button>
@@ -233,7 +235,9 @@ const AdminJobs: React.FC = () => {
 
         <Card>
           <Table<Job>
-            rowKey="id"
+            rowKey={(job) =>
+              job.id ?? (job as unknown as { _id?: string })._id ?? ""
+            }
             loading={isLoading}
             columns={columns}
             dataSource={jobs}
@@ -244,54 +248,42 @@ const AdminJobs: React.FC = () => {
       </Space>
 
       <Modal
-        title="Create Job"
-        open={isModalOpen}
-        onCancel={closeModal}
-        onOk={handleCreateJob}
-        okText="Create"
-        destroyOnClose
+        title="Job details"
+        open={isViewModalOpen}
+        onCancel={closeViewModal}
+        footer={null}
       >
-        <Form<CreateJobPayload> form={form} layout="vertical">
-          <Form.Item
-            name="title"
-            label="Job Title"
-            rules={[{ required: true, message: "Please enter a job title" }]}
-          >
-            <Input placeholder="Senior Frontend Engineer" />
-          </Form.Item>
-
-          <Form.Item
-            name="company"
-            label="Company"
-            rules={[{ required: true, message: "Please enter a company name" }]}
-          >
-            <Input placeholder="QuickHire" />
-          </Form.Item>
-
-          <Form.Item
-            name="location"
-            label="Location"
-            rules={[{ required: true, message: "Please enter a location" }]}
-          >
-            <Input placeholder="Remote / City, Country" />
-          </Form.Item>
-
-          <Form.Item
-            name="category"
-            label="Category"
-            rules={[{ required: true, message: "Please enter a category" }]}
-          >
-            <Input placeholder="Engineering, Marketing, Design..." />
-          </Form.Item>
-
-          <Form.Item
-            name="description"
-            label="Description"
-            rules={[{ required: true, message: "Please enter a description" }]}
-          >
-            <TextArea rows={4} placeholder="Short description of the role" />
-          </Form.Item>
-        </Form>
+        {viewJob && (
+          <Space direction="vertical" size="small" style={{ width: "100%" }}>
+            <div>
+              <Text type="secondary">Title</Text>
+              <div>{viewJob.title}</div>
+            </div>
+            <div>
+              <Text type="secondary">Company</Text>
+              <div>{viewJob.company}</div>
+            </div>
+            <div>
+              <Text type="secondary">Location</Text>
+              <div>{viewJob.location}</div>
+            </div>
+            <div>
+              <Text type="secondary">Category</Text>
+              <div>{viewJob.category}</div>
+            </div>
+            <div>
+              <Text type="secondary">Description</Text>
+              <div
+                style={{ border: "1px solid #e5e7eb", padding: 12, borderRadius: 8 }}
+                dangerouslySetInnerHTML={{ __html: viewJob.description }}
+              />
+            </div>
+            <div>
+              <Text type="secondary">Created at</Text>
+              <div>{new Date(viewJob.createdAt).toLocaleString()}</div>
+            </div>
+          </Space>
+        )}
       </Modal>
     </div>
   );

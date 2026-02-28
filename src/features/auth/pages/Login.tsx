@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Form, Input, Button, Typography, Alert, Checkbox } from "antd";
-import { useNavigate, Link } from "react-router-dom";
+import { Form, Input, Button, Typography, Alert, Checkbox, Card } from "antd";
+import { useNavigate } from "react-router-dom";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "../../../core/store/hooks";
 import { login, clearError } from "../store/authSlice";
@@ -10,7 +10,6 @@ import { selectIsLoading } from "../store/authSelectors";
 import { selectError } from "../store/authSelectors";
 import { selectIsAuthenticated } from "../store/authSelectors";
 import type { LoginCredentials } from "../types/auth.types";
-import AuthLayoutLeft from "../../onboarding/AuthLayoutLeft";
 
 const { Text, Title } = Typography;
 
@@ -37,7 +36,7 @@ const Login: React.FC = () => {
   }, [isAuthenticated, user, navigate]);
 
   const onFinish = async (
-    values: LoginCredentials & { remember?: boolean }
+    values: LoginCredentials & { remember?: boolean },
   ) => {
     try {
       const loginData: LoginCredentials = {
@@ -55,111 +54,98 @@ const Login: React.FC = () => {
 
   return (
     <div
-      className="min-h-screen flex flex-col lg:grid lg:grid-cols-2"
+      className="min-h-screen flex items-center justify-center px-4"
       style={{
-        backgroundImage: `linear-gradient(#0F2B4BE0, #0F2B4B), url("/bg-auth.png")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        backgroundImage:
+          "radial-gradient(circle at 0% 0%, #0f172a 0, #020617 50%, #000 100%)",
       }}
     >
-      {/* Left Side - Hidden on mobile, visible on desktop */}
-      <div className="hidden lg:block">
-        <AuthLayoutLeft />
-      </div>
-
-      {/* Right Side - Login Form */}
-      <div className="flex-1 lg:flex-none w-full h-full flex flex-col justify-center bg-white p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12">
-        <div className="max-w-sm sm:max-w-md md:max-w-lg mx-auto w-full">
-          {/* Header */}
-          <div className="text-center mb-6 sm:mb-8 lg:mb-10">
-            <Title
-              level={2}
-              className="!text-xl sm:!text-2xl lg:!text-3xl !mb-2 sm:!mb-3"
-            >
-              Welcome Back
+      <div className="w-full max-w-md">
+        <Card
+          bordered={false}
+          style={{
+            borderRadius: 16,
+            boxShadow:
+              "0 18px 45px rgba(15,23,42,0.45), 0 0 0 1px rgba(148,163,184,0.25)",
+          }}
+        >
+          <div className="text-center mb-6">
+            <div className="mx-auto mb-4 h-10 w-10 rounded-full bg-slate-900 flex items-center justify-center">
+              <UserOutlined style={{ color: "#38bdf8", fontSize: 20 }} />
+            </div>
+            <Title level={3} style={{ marginBottom: 4 }}>
+              QuickHire Admin
             </Title>
-            <Text className="text-sm sm:text-base lg:text-lg text-gray-600">
-              Sign in to your Deshi Bazar account
+            <Text type="secondary">
+              Sign in to manage jobs and applications.
             </Text>
           </div>
 
-          {/* Error Alert */}
           {error && (
             <Alert
-              message="Login Failed"
+              message="Login failed"
               description={error}
               type="error"
               showIcon
-              className="mb-4 sm:mb-6"
+              className="mb-4"
             />
           )}
 
-          {/* Login Form */}
           <Form
             form={form}
             layout="vertical"
             onFinish={onFinish}
             autoComplete="off"
             size="large"
-            className="space-y-4 sm:space-y-6"
           >
             <Form.Item
               name="email"
               label="Email"
               rules={[
-                { required: true, message: "Please enter your email!" },
-                { type: "email", message: "Please enter a valid email!" },
+                { required: true, message: "Please enter your email" },
+                { type: "email", message: "Please enter a valid email" },
               ]}
-              className="!mb-4 sm:!mb-6"
             >
               <Input
-                placeholder="Enter your email"
+                placeholder="admin@quickhire.test"
                 prefix={<UserOutlined className="text-gray-400" />}
-                className="!rounded-md !h-12 sm:!h-11 text-base sm:text-sm"
               />
             </Form.Item>
 
             <Form.Item
               name="password"
               label="Password"
-              rules={[
-                { required: true, message: "Please enter your password!" },
-              ]}
-              className="!mb-4 sm:!mb-6"
+              rules={[{ required: true, message: "Please enter your password" }]}
             >
               <Input.Password
                 placeholder="Enter your password"
                 prefix={<LockOutlined className="text-gray-400" />}
-                className="!rounded-md !h-12 sm:!h-11 text-base sm:text-sm"
               />
             </Form.Item>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-2">
               <Form.Item
                 name="remember"
                 valuePropName="checked"
-                className="!mb-0"
+                style={{ marginBottom: 0 }}
               >
-                <Checkbox className="text-sm sm:text-base">
-                  Remember me
-                </Checkbox>
+                <Checkbox>Remember me</Checkbox>
               </Form.Item>
             </div>
 
-            <Form.Item className="!mb-4 sm:!mb-6">
+            <Form.Item style={{ marginBottom: 0 }}>
               <Button
                 type="primary"
                 htmlType="submit"
                 loading={isLoading}
-                className="w-full h-12 sm:h-11 text-base sm:text-sm font-medium"
+                className="w-full h-11 font-medium"
                 style={{ background: "var(--color-dod-primary)" }}
               >
-                {isLoading ? "Signing In..." : "Sign In"}
+                {isLoading ? "Signing in..." : "Sign in"}
               </Button>
             </Form.Item>
           </Form>
-        </div>
+        </Card>
       </div>
     </div>
   );

@@ -8,6 +8,10 @@ export const routes = {
   dashboard: {
     root: "/dashboard",
     jobs: "/dashboard/jobs",
+    jobsNew: "/dashboard/jobs/new",
+    jobsEdit: "/dashboard/jobs/:id/edit",
+    applications: "/dashboard/applications",
+    profile: "/dashboard/profile",
   },
   errors: {
     notFound: "/404",

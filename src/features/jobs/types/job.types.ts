@@ -1,10 +1,12 @@
 export interface Job {
-  id: string;
+  id?: string;
+  _id?: string;
   title: string;
   company: string;
   location: string;
   category: string;
   description: string;
+  status?: "active" | "inactive";
   createdAt: string;
   updatedAt: string;
 }
@@ -48,6 +50,7 @@ export interface CreateJobPayload {
   location: string;
   category: string;
   description: string;
+  status?: "active" | "inactive";
 }
 
 export interface CreateApplicationPayload {

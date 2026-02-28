@@ -19,7 +19,15 @@ export const jobService = {
   },
 
   async getJobById(id: string): Promise<Job> {
-    return api.get<Job>(API_ENDPOINTS.JOBS.GET_BY_ID(id));
+    const response = await api.get<Job | { data: Job }>(
+      API_ENDPOINTS.JOBS.GET_BY_ID(id),
+    );
+    const maybeEnvelope = response as { data?: Job };
+    return (maybeEnvelope.data ?? response) as Job;
+  },
+
+  async updateJob(id: string, payload: CreateJobPayload): Promise<Job> {
+    return api.put<Job>(API_ENDPOINTS.JOBS.GET_BY_ID(id), payload);
   },
 
   async deleteJob(id: string): Promise<void> {

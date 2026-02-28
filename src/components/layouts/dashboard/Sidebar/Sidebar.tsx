@@ -31,14 +31,25 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
     items: MenuItem[],
     path: string
   ): MenuItem | undefined => {
-    for (const it of items) {
-      if (it.path === path) return it;
-      if (it.children) {
-        const found = findByPath(it.children, path);
-        if (found) return found;
+    let bestMatch: MenuItem | undefined;
+
+    const visit = (nodes: MenuItem[]) => {
+      for (const it of nodes) {
+        if (it.path) {
+          if (path === it.path || path.startsWith(`${it.path}/`)) {
+            if (!bestMatch || (bestMatch.path && it.path.length > bestMatch.path.length)) {
+              bestMatch = it;
+            }
+          }
+        }
+        if (it.children) {
+          visit(it.children);
+        }
       }
-    }
-    return undefined;
+    };
+
+    visit(items);
+    return bestMatch;
   };
 
   // Get currently selected key based on path (supports nested)
@@ -91,7 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
         <div className="h-16 px-4 border-b border-gray-200 bg-white">
           <div className="flex items-center h-full gap-3">
             <div className="flex-shrink-0">
-              <img src="/logo.svg" alt="QuickHire Logo" className="h-8 w-8" />
+              <img src="/logo.svg" alt="QuickHire Console" className="h-8 w-8" />
             </div>
 
             {!!collapsed && (

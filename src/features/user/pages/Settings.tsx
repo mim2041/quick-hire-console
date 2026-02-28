@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import {
   Card,
@@ -86,7 +88,7 @@ const Settings: React.FC = () => {
         <Form
           layout="vertical"
           initialValues={{
-            storeName: "Deshi Bazar",
+            storeName: "QuickHire Console",
             currency: "USD",
             timezone: "UTC",
           }}

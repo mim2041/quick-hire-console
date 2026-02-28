@@ -12,6 +12,10 @@ export const API_ENDPOINTS = {
     DELETE: (id: string) => `/jobs/${id}`,
   },
   APPLICATIONS: {
+    LIST: "/applications",
     CREATE: "/applications",
+    GET_BY_ID: (id: string) => `/applications/${id}`,
+    UPDATE: (id: string) => `/applications/${id}`,
+    DELETE: (id: string) => `/applications/${id}`,
   },
 } as const;

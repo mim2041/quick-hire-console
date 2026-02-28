@@ -1,6 +1,6 @@
 import { api } from "../../../core/api/api-client";
 import { API_ENDPOINTS } from "../../../core/api/endpoints";
-import type { LoginCredentials, LoginResponse } from "../types/auth.types";
+import type { LoginCredentials, LoginResponse, User } from "../types/auth.types";
 
 interface RawLoginResponse {
   status: number;
@@ -22,5 +22,9 @@ export const authService = {
       { skipAuth: true }
     );
     return response.data;
+  },
+
+  async getCurrentUser(): Promise<User> {
+    return api.get<User>(API_ENDPOINTS.AUTH.ME);
   },
 };

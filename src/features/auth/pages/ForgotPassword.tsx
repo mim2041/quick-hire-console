@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import { Form, Input, Button, Typography, Alert } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -110,7 +111,7 @@ const ForgotPassword: React.FC = () => {
       >
         <div style={{ textAlign: "center", maxWidth: "400px" }}>
           <Title level={1} style={{ color: "white", marginBottom: "1rem" }}>
-            Deshi Bazar
+            QuickHire Console
           </Title>
           <Title
             level={3}

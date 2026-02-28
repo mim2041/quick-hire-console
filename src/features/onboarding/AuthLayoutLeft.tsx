@@ -5,19 +5,19 @@ const { Title, Paragraph } = Typography;
 const AuthLayoutLeft = () => {
   const carouselSlides = [
     {
-      subtitle: "The Smarter Way to Collect and Share Portfolio Data",
+      subtitle: "Centralized Hiring for Fast-Moving Teams",
       description:
-        "Experience financial, operational, and ESG data submissions from your portfolio companies — with role-based dashboards, export-ready reports, and full transparency at every step.",
+        "Create roles, publish jobs, and review applications in one place. QuickHire gives your team a focused, admin-first console for managing the entire hiring pipeline.",
     },
     {
-      subtitle: "Streamline Your Data Collection Process",
+      subtitle: "High-Signal Applications, Less Noise",
       description:
-        "Automate data gathering from multiple sources and create comprehensive reports with just a few clicks. Save time and reduce manual errors with our intelligent data processing.",
+        "See structured applications with rich job descriptions, candidate details, and links to resumes so you can move from screening to shortlisting quickly.",
     },
     {
-      subtitle: "Real-time Analytics and Insights",
+      subtitle: "Designed for Clarity and Speed",
       description:
-        "Get instant visibility into your portfolio performance with advanced analytics, customizable dashboards, and automated reporting that keeps you informed at every step.",
+        "A clean dashboard, clear navigation, and purpose-built admin tools help you stay on top of open roles, new applications, and hiring decisions.",
     },
   ];
 
@@ -52,7 +52,6 @@ const AuthLayoutLeft = () => {
                   alignItems: "center",
                 }}
               >
-                {/* Main Title */}
                 <Title
                   level={1}
                   style={{
@@ -63,10 +62,9 @@ const AuthLayoutLeft = () => {
                     fontWeight: "bold",
                     cursor: "pointer",
                   }}
-                  onClick={() => window.open("https://dataondeck.io", "_blank")}
-                  title="Visit Data on Deck"
+                  title="QuickHire Admin Console"
                 >
-                  QuickHire Console
+                  QuickHire Admin Console
                 </Title>
 
                 {/* Logo */}
@@ -87,14 +85,14 @@ const AuthLayoutLeft = () => {
                       justifyContent: "center",
                       cursor: "pointer",
                     }}
-                    onClick={() =>
-                      window.open("https://dataondeck.io", "_blank")
-                    }
-                    title="Visit Data on Deck"
+                    // onClick={() =>
+                    //   window.open("https://dataondeck.io", "_blank")
+                    // }
+                    title="Visit QuickHire Console"
                   >
                     <img
                       src="/logo.svg"
-                      alt="Logo"
+                      alt="QuickHire Console"
                       style={{ height: "60px", width: "auto" }}
                     />
                   </div>

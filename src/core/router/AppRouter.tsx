@@ -15,6 +15,15 @@ const DashboardHome = React.lazy(
 const AdminJobs = React.lazy(
   () => import("../../features/jobs/pages/AdminJobs")
 );
+const JobUpsertPage = React.lazy(
+  () => import("../../features/jobs/pages/JobUpsertPage")
+);
+const AdminApplications = React.lazy(
+  () => import("../../features/applications/pages/AdminApplications")
+);
+const ProfilePage = React.lazy(
+  () => import("../../features/user/pages/Profile")
+);
 
 // Loading spinner component
 const LoadingSpinner = () => (
@@ -67,6 +76,38 @@ const AppRouter: React.FC = () => {
             element={
               <ProtectedRoute requiredRole="admin">
                 <AdminJobs />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={routes.dashboard.jobsNew}
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <JobUpsertPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={routes.dashboard.applications}
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminApplications />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={routes.dashboard.profile}
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={routes.dashboard.jobsEdit}
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <JobUpsertPage />
               </ProtectedRoute>
             }
           />
