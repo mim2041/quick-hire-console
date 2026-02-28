@@ -66,7 +66,10 @@ const AdminJobs: React.FC = () => {
   };
 
   useEffect(() => {
-    void loadJobs(pagination.current ?? 1, pagination.pageSize ?? DEFAULT_PAGE_SIZE);
+    void loadJobs(
+      pagination.current ?? 1,
+      pagination.pageSize ?? DEFAULT_PAGE_SIZE,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
 
@@ -91,7 +94,10 @@ const AdminJobs: React.FC = () => {
       await jobService.createJob(values);
       message.success("Job created");
       closeModal();
-      void loadJobs(pagination.current ?? 1, pagination.pageSize ?? DEFAULT_PAGE_SIZE);
+      void loadJobs(
+        pagination.current ?? 1,
+        pagination.pageSize ?? DEFAULT_PAGE_SIZE,
+      );
     } catch (error) {
       if (error instanceof Error) {
         // validation error is already shown by antd
@@ -106,7 +112,10 @@ const AdminJobs: React.FC = () => {
     try {
       await jobService.deleteJob(jobId);
       message.success("Job deleted");
-      void loadJobs(pagination.current ?? 1, pagination.pageSize ?? DEFAULT_PAGE_SIZE);
+      void loadJobs(
+        pagination.current ?? 1,
+        pagination.pageSize ?? DEFAULT_PAGE_SIZE,
+      );
     } catch {
       message.error("Failed to delete job");
     }
@@ -160,11 +169,7 @@ const AdminJobs: React.FC = () => {
               okButtonProps={{ danger: true }}
               onConfirm={() => handleDeleteJob(record.id)}
             >
-              <Button
-                size="small"
-                danger
-                icon={<DeleteOutlined />}
-              >
+              <Button size="small" danger icon={<DeleteOutlined />}>
                 Delete
               </Button>
             </Popconfirm>
@@ -173,7 +178,7 @@ const AdminJobs: React.FC = () => {
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
   const handleSearch = (value: string) => {
@@ -185,7 +190,10 @@ const AdminJobs: React.FC = () => {
   };
 
   const handleRefresh = () => {
-    void loadJobs(pagination.current ?? 1, pagination.pageSize ?? DEFAULT_PAGE_SIZE);
+    void loadJobs(
+      pagination.current ?? 1,
+      pagination.pageSize ?? DEFAULT_PAGE_SIZE,
+    );
   };
 
   return (
@@ -211,10 +219,7 @@ const AdminJobs: React.FC = () => {
                 onSearch={handleSearch}
                 style={{ width: 240 }}
               />
-              <Button
-                icon={<ReloadOutlined />}
-                onClick={handleRefresh}
-              />
+              <Button icon={<ReloadOutlined />} onClick={handleRefresh} />
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
@@ -293,4 +298,3 @@ const AdminJobs: React.FC = () => {
 };
 
 export default AdminJobs;
-

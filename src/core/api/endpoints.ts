@@ -1,17 +1,17 @@
 export const API_ENDPOINTS = {
   AUTH: {
-    LOGIN: "/api/auth/login",
-    REFRESH: "/api/auth/refresh",
-    LOGOUT: "/api/auth/logout",
-    ME: "/api/auth/me",
+    LOGIN: "/auth/login",
+    REFRESH: "/auth/refresh",
+    LOGOUT: "/auth/logout",
+    ME: "/auth/me",
   },
   JOBS: {
-    LIST: "/api/jobs",
-    CREATE: "/api/jobs",
-    GET_BY_ID: (id: string) => `/api/jobs/${id}`,
-    DELETE: (id: string) => `/api/jobs/${id}`,
+    LIST: "/jobs",
+    CREATE: "/jobs",
+    GET_BY_ID: (id: string) => `/jobs/${id}`,
+    DELETE: (id: string) => `/jobs/${id}`,
   },
   APPLICATIONS: {
-    CREATE: "/api/applications",
+    CREATE: "/applications",
   },
 } as const;
