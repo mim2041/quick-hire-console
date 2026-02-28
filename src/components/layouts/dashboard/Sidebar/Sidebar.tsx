@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Menu, Typography, type MenuProps } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import img from "../../../../assets/images.png";
 import { menuItems, type MenuItem } from "../../../../config/menuItems";
 import SidebarItem from "./SidebarItem";
 
@@ -102,7 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
         <div className="h-16 px-4 border-b border-gray-200 bg-white">
           <div className="flex items-center h-full gap-3">
             <div className="flex-shrink-0">
-              <img src="/logo.svg" alt="QuickHire Console" className="h-8 w-8" />
+              <img src={img} alt="QuickHire Console" className="h-16 w-16" />
             </div>
 
             {!!collapsed && (
