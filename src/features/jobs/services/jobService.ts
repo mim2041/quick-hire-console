@@ -27,7 +27,7 @@ export const jobService = {
   },
 
   async updateJob(id: string, payload: CreateJobPayload): Promise<Job> {
-    return api.put<Job>(API_ENDPOINTS.JOBS.GET_BY_ID(id), payload);
+    return api.patch<Job>(API_ENDPOINTS.JOBS.GET_BY_ID(id), payload);
   },
 
   async deleteJob(id: string): Promise<void> {
